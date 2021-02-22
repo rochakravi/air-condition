@@ -1,11 +1,22 @@
 import { connect } from "react-redux";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const User = (props) => {
+  const [products, setProducts] = useState([]);
   const clickHandler = () => {
     props.updateUser();
   };
+  useEffect(() => {
+    axios.get(`https://jsonplaceholder.typicode.com/users`).then((res) => {
+      setProducts(res.data);
+    });
+  });
   return (
     <>
+      {products.map((person, index) => (
+        <p>{person.name}</p>
+      ))}
       <p>
         current user - {props.loggedUser}- {props.email}
       </p>
